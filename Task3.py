@@ -1,0 +1,10 @@
+print('Введите координаты точки А(х1;y1)')
+x1 = float(input("X1 = "))
+y1 = float(input("Y1 = "))
+print('Введите координаты точки B(х1;y1)')
+x2 = float(input("X2 = "))
+y2 = float(input("Y2 = "))
+print(f'Вы ввели координаты точек: А = ({x1 = } : {y1 = }) B = ({x2 = } : {y2 = })')
+k = (y1 - y2) / (x1 - x2)
+b = y2 - k*x2
+print(f' Y = {k:.2f}*X + {b:.2f}')
