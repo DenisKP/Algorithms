@@ -6,7 +6,7 @@ import sys
 def sum_deq_func(sum_mem_, sum_deq=0):      # функция подсчета для всех вариантов
     for x in sum_mem_:
         sum_deq += sys.getsizeof(x)
-        print(f"{x= }, {type(x)= }")  # сделал для проверки себя результат отсюда удалил
+        print(f"{x= }, {type(x)= }")  # сделал для проверки себя, результат из вывода в коментах удалил
         if type(x) == str or type(x) == int:
             continue
         elif type(x) == list or type(x) == deque or type(x) == tuple:
