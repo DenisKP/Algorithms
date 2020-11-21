@@ -3,6 +3,22 @@ from collections import deque
 import sys
 
 
+def sum_deq_func(sum_mem_, sum_deq=0):      # функция подсчета для всех вариантов
+    for x in sum_mem_:
+        sum_deq += sys.getsizeof(x)
+        print(f"{x= }, {type(x)= }")  # сделал для проверки себя результат отсюда удалил
+        if type(x) == str or type(x) == int:
+            continue
+        elif type(x) == list or type(x) == deque or type(x) == tuple:
+            for n in x:
+                sum_deq += sys.getsizeof(n)
+        elif type(x) == dict:
+            for n in x:
+                sum_deq += sys.getsizeof(x)
+                sum_deq += sys.getsizeof(x[n])
+    return sum_deq
+
+
 def reverse_and_len_improve(first_n, second_n):
     second_n.reverse()  # разворачиваем деки для удобства
     first_n.reverse()
@@ -41,33 +57,30 @@ def sum_num(first_n, second_n):
         sum_list.remove("0")
     for i in sum_list:  # делаем красивый вывод результата строкой из деки
         sum_of_two_str += i
-    sum_mem_use.append(sum_list)  # добавляем переменные
-    sum_mem_use.append(n)
-    sum_mem_use.append(dict_16)
-    sum_mem_use.append(dict_16_rev)
-    sum_mem_use.append(sum_of_two_str)
+    sum_mem.append(sum_list)  # добавляем переменные
+    sum_mem.append(n)
+    sum_mem.append(dict_16)
+    sum_mem.append(dict_16_rev)
+    sum_mem.append(sum_of_two_str)
     return sum_of_two_str
 
 
-sum_mem_use = deque()
+sum_mem = deque()
 first_num = deque(input("Введи первое шестнадцатеричное число: "))
 second_num = deque(input("Введи второе шестнадцатеричное число: "))
-sum_mem_use.append(first_num)
-sum_mem_use.append(second_num)
+sum_mem.append(first_num)
+sum_mem.append(second_num)
 first_num_rev, second_num_rev = reverse_and_len_improve(first_num, second_num)
-sum_mem_use.append(first_num_rev)
-sum_mem_use.append(second_num_rev)
+sum_mem.append(first_num_rev)
+sum_mem.append(second_num_rev)
 print(f"Сумма двух введенных шестнадцатеричных чисел: {sum_num(first_num, second_num)}")
 
-sum_deque = 0
-for x in sum_mem_use:
-    sum_deque += sys.getsizeof(x)
-#    print(f"{x= }, {type(x)= }, {sys.getsizeof(x)= }")    # сделал для проверки себя результат отсюда удалил
-print(f"Всего использовано памяти на переменные: {sum_deque}")
+print(f"Всего использовано памяти на переменные: {sum_deq_func(sum_mem)}")
+
 # Введи первое шестнадцатеричное число: a2
 # Введи второе шестнадцатеричное число: c4f
 # Сумма двух введенных шестнадцатеричных чисел: cf1
-# Всего использовано памяти на переменные: 5012
+# Всего использовано памяти на переменные: 43486
 
 # Второй вариант, честно подсмотренный у вас, взял его как вариант, потому что в итоге есть использование двух словарей,
 # при этом словари меньше,и созданы заранее, а не копированы в коде, как у меня, плюс само использование меньшего кол-ва
@@ -109,53 +122,43 @@ def sum_num_2(first, second):
 
     if transferal == 1:
         result.appendleft("1")  # усвоил, что максимальное значение будет 1, и не надо писать что то длиннее
-    sum_mem_use.append(first)
-    sum_mem_use.append(second)
-    sum_mem_use.append(result)
-    sum_mem_use.append(transferal)
+    sum_mem.append(first)
+    sum_mem.append(second)
+    sum_mem.append(result)
+    sum_mem.append(transferal)
     return result
 
 
 first_nu = deque(input("Введи первое шестнадцатеричное число: ").upper())
 second_nu = deque(input("Введи второе шестнадцатеричное число: ").upper())
-sum_mem_use = deque()
+sum_mem = deque()
 print(f"Сумма двух введенных шестнадцатеричных чисел: {list(sum_num_2(first_nu, second_nu))}")
 
-sum_mem_use.append(dict_16)
-sum_mem_use.append(dict_16_rev)
-sum_mem_use.append(first_nu)
-sum_mem_use.append(second_nu)
-sum_deque = 0
-for x in sum_mem_use:
-    sum_deque += sys.getsizeof(x)
-#    print(f"{x= }, {type(x)= }, {sys.getsizeof(x)= }")    # сделал для проверки себя отсюда удалил
-print(f"Всего использовано памяти на переменные: {sum_deque}")
+sum_mem.append(dict_16)
+sum_mem.append(dict_16_rev)
+sum_mem.append(first_nu)
+sum_mem.append(second_nu)
+print(f"Всего использовано памяти на переменные: {sum_deq_func(sum_mem)}")
 # Введи первое шестнадцатеричное число: a2
 # Введи второе шестнадцатеричное число: c4f
 # Сумма двух введенных шестнадцатеричных чисел: ['C', 'F', '1']
-# Всего использовано памяти на переменные: 3952
-
+# Всего использовано памяти на переменные: 15836
+#
 # Третий вариант. Запрещенный на прошлом уроке, но не запрещенный на этом.
-
+#
 first_nu = input("Введи первое шестнадцатеричное число: ")
 second_nu = input("Введи второе шестнадцатеричное число: ")
 sum_16 = hex(int(first_nu, 16) + int(second_nu, 16))
 print(f"Сумма двух введенных шестнадцатеричных чисел: {sum_16}")
-sum_mem_use = deque()
-sum_mem_use.append(first_nu)
-sum_mem_use.append(second_nu)
-sum_mem_use.append(sum_16)
-sum_deque = 0
-for x in sum_mem_use:
-    sum_deque += sys.getsizeof(x)
-#    print(f"{x= }, {type(x)= }, {sys.getsizeof(x)= }")  # сделал для проверки себя 
-print(f"Всего использовано памяти на переменные: {sum_deque}")
+sum_mem = deque()
+sum_mem.append(first_nu)
+sum_mem.append(second_nu)
+sum_mem.append(sum_16)
+
+print(f"Всего использовано памяти на переменные: {sum_deq_func(sum_mem)}")
 # Введи первое шестнадцатеричное число: a2
 # Введи второе шестнадцатеричное число: c4f
 # Сумма двух введенных шестнадцатеричных чисел: 0xcf1
-# x= 'a2', type(x)= <class 'str'>, sys.getsizeof(x)= 51   оставил вывод для себя, просто проверить
-# x= 'c4f', type(x)= <class 'str'>, sys.getsizeof(x)= 52
-# x= '0xcf1', type(x)= <class 'str'>, sys.getsizeof(x)= 54
 # Всего использовано памяти на переменные: 157
 # Вывод:
 # Рассмотрены три варианта решения задачи:
@@ -164,4 +167,4 @@ print(f"Всего использовано памяти на переменны
 # лист или кортеж. Плюс для дальнейшего вывод и вычислений не нужно создавать новые переменные.
 # Мой первично сданный способ затрачивает наибольшее кол-во памяти 5092 байта, из-за создания огромного кол-ва
 # переменных.
-# Интерпретатор Python 3.8, Windows X64,
+# Интерпретатор Python 3.8, Windows 10 X64
